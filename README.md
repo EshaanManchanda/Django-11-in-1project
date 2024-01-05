@@ -20,8 +20,7 @@ maka an .env file in your Directory and add all the api keys and other requireme
 Clone the project
 
 ```bash
-  git clone https://github.com/Shivakumar1V/Django-Weather-Application
-```
+  git clone https://github.com/EshaanManchanda/Django-11-in-1project.git .
 
 Install dependencies
 

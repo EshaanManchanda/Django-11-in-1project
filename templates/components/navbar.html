@@ -1,0 +1,88 @@
+<style>
+    @media screen and (min-width: 992px) {
+        .navbar {
+          padding: 0;
+        }
+        .navbar .navbar-nav .nav-link {
+          padding: 1em 0;
+        }
+        .navbar .navbar-nav .nav-item {
+          margin: 0 1em;
+        }
+      }
+      
+      .navbar .navbar-nav .nav-item {
+        position: relative;
+      }
+      .navbar .navbar-nav .nav-item::after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        content: "";
+        background-color: black;
+        width: 0%;
+        height: 4px;
+        transition: all 0.5s;
+      }
+      .navbar .navbar-nav .nav-item:hover::after {
+        width: 100%;
+      }
+      
+
+</style>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#ffd60a">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">Tech Love V</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home:index' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Projects
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'home:weather_app'%}">Weather App</a></li>
+              <li>
+              <li><a class="dropdown-item" href="{% url 'home:text-html'%}">Text to Html or Html to Text</a></li>
+              <li><a class="dropdown-item" href="{% url 'home:calories_counter'%}">Calories Counter</a></li>
+              <li><a class="dropdown-item" href="{% url 'home:todo_list'%}">Todo List</a></li>
+              <li><a class="dropdown-item" href="{% url 'home:blog'%}">Blogs</a></li>
+              <li><a class="dropdown-item" href="{% url 'chat:chat-page'%}">Chat Application</a></li>
+              <li><a class="dropdown-item" href="{% url 'home:portfolio'%}">Portfolio</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">Contact</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-dark" type="submit">Search</button>
+        </form>
+      </div>
+      <div class="p-2">
+        {% if user.is_authenticated %}
+        <i class="fa-solid fa-user fa-lg" style="color: #000000;"></i>
+        <a href="{% url 'account_logout' %}"><button class="btn btn-danger" >Logout</button></a>
+        {% else %}
+        <a href="{% url 'account_login' %}"><button class="btn btn-success" >Login</button></a>
+        <a href="{% url 'account_signup' %}"><button class="btn btn-primary" >Register</button></a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  

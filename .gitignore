@@ -1,0 +1,17 @@
+.env
+db.sqlite3
+*.sqlite
+# Ignore virtual environment folders
+venv/
+env/
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore log files
+*.log
+
+# Ignore secret keys and configuration files
+secrets.json
+config.ini

@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% block title %}Blog-Home{% endblock title %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+{% endblock extra_head %}
+
+{% block messages %}
+{% if messages %}
+<ul class="messages" style="width: 600px;margin-left:400px">
+  {% for message in messages %}
+  <div class="alert alert-success">
+    <strong>Success!</strong> {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock messages %}
+
+{% block content %}
+{% if request.user.is_active %}
+<header class="w3-container w3-center w3-padding-48 w3-white">
+    <h1 class="w3-xxxlarge"><b>{{ request.user.username }}</b></h1>
+    <h6>Welcome to the blog of <span class="w3-tag">{{ request.user.username }}'s world</span></h6>
+  </header>
+
+  {% else %}
+
+  <header class="w3-container w3-center w3-padding-48 w3-white">
+    <h1 class="w3-xxxlarge"><b>Blogging Website</b></h1>
+    <h6>Welcome to the blog of <span class="w3-tag">Awesome People!</span></h6>
+  </header>
+
+ {% endif %}
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <div class="w3-container w3-white w3-margin w3-padding-large">
+    {% for post in posts %}
+          <div class="w3-center">
+            <h3>{{ post.title }}</h3>
+            <h5>{{ post.author }}, <span class="w3-opacity">{{ post.created_on }} (UTC)</span></h5>
+          </div>
+  
+          <div class="w3-justify">
+            <!-- <img src="/w3images/girl_hat.jpg" alt="Girl Hat" style="width:100%" class="w3-padding-16"> -->
+            <p>{{post.content}}</p>
+            {% if post.author == request.user %}
+  
+            
+            <form method="post">
+            {% csrf_token %}
+            <p class="w3-right">
+            <button class="w3-button w3-red" type="submit" value="delete" name={{post.id}}><b><i class="fa fa-trash-o"></i></b></button></p>
+          </form>
+  
+  <p class="w3-right"><button class="w3-button w3-orange" id="myBtn" data-toggle="modal" data-target="#mModal"><b><i class="fa fa-pencil-square-o"></i></b></button></p>
+  
+            <form method="post">
+                          {% csrf_token %}
+  
+                            <!-- Modal -->
+                            <div class="modal fade" id="mModal" role="dialog">
+                              <div class="modal-dialog">
+                              
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title" style="color: black;">Modify Blog</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form>
+                                    <div class="form-group">
+                                                  <label for="title" class="col-form-label" style="color: black;">Title</label>
+                                                  <input type="text" class="form-control" id="title"
+                                                      name="title" value="{{ post.title }}" required>
+  
+                                                  <label for="content" class="col-form-label" style="color: black;">Content</label>
+                                                  <textarea type="text" class="form-control" id="content"
+                                                      name="content" rows="20" cols="50" required>{{ post.content }}</textarea>
+  
+                                                 <label for="modify" class="col-form-label" style="color: black;">Modify</label>
+                                                  <input type="radio"  id="modify"
+                                                      name="modify" required>
+                                      </div>
+                                    </form>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color: black;">Close</button>
+                                    <button type="Submit" class="btn btn-primary" style="background-color: #c23232;">Modify Blog</button>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>
+  
+                      </form>
+            
+  <p class="w3-clear"></p>
+  {% else %}
+
+          <p class="w3-left">
+          <button class="w3-button w3-white w3-border like yes" type="submit" id="like" value="delete" name={{post.id}}><b><i class="fa fa-thumbs-up"></i> {{post.like}}</b></button></p>
+
+
+          <p class="w3-left">
+            <button class="w3-button w3-white w3-border unlike no" id="unlike" onclick="likeFunction(this)"><b><i class="fa fa-thumbs-down"></i>{{post.unlike}}</b></button>
+        </p>
+          <p class="w3-clear"></p>
+
+          {% endif %}
+
+          <p class="w3-clear"></p>
+        
+        </div>
+    {% endfor %}
+      </div>
+
+{% if request.user.is_active %}
+
+<!-- About/Information menu -->
+    <div class="w3-col l4">
+      <!-- About Card -->
+      <div class="w3-white w3-margin">
+        <!-- <img src="/w3images/avatar_girl2.jpg" alt="Jane" style="width:100%" class="w3-grayscale"> -->
+        <div class="w3-container w3-black">
+          <h4>{{ request.user.username }}</h4>
+          <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+          <p class="w3-right"><a class="w3-button w3-red" href="{% url 'account_logout' %}"><b><!-- LogOut  --><i class="fa fa-sign-out"></i></b></a></p>
+
+          <p class="w3-left"><button class="w3-button w3-green" id="myBtn" data-toggle="modal" data-target="#myModal"><b><!-- Create New blog  --><i class="fa fa-plus"></i></b></button></p>
+
+          <form method="post">
+                        {% csrf_token %}
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                            
+                              <!-- Modal content-->
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title" style="color: black;">New Blog</h4>
+                                </div>
+                                <div class="modal-body">
+                                  <form>
+                                  <div class="form-group">
+                                                <label for="title" class="col-form-label" style="color: black;">Title</label>
+                                                <input type="text" class="form-control" id="title"
+                                                    name="title" required>
+
+                                                <label for="content" class="col-form-label" style="color: black;">Content</label>
+                                                <textarea type="text" class="form-control" id="content"
+                                                    name="content" rows="20" cols="50" required></textarea>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color: black;">Close</button>
+                                  <button type="Submit" class="btn btn-primary" style="background-color: #c23232;">Upload Blog</button>
+                                </div>
+                              </div>
+                              
+                            </div>
+                          </div>
+
+                    </form>
+
+
+          
+          
+        </div>
+      </div>
+      <hr>
+
+{% endif %}
+
+{% endblock content %}
+
+{% block extra_script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+{% endblock extra_script %}
